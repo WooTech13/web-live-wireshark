@@ -31,6 +31,15 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/api/capture', captureRoutes);
 
+// Ajoutez cette route de test dans server.js
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Backend is working!', 
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
+
 // WebSocket Authentication
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;

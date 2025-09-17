@@ -24,13 +24,16 @@ class TsharkManager {
           const interfaces = output.split('\n')
             .filter(line => line.trim())
             .map(line => {
-              const match = line.match(/^(\d+)\.\s(.+)\s\((.+)\)$/);
+              console.log(line)
+              const match = true; //line.match(/^(\d+)\.\s(.+)\s\((.+)\)$/);
               if (match) {
                 return {
                   id: match[1],
                   name: match[2],
                   description: match[3]
                 };
+              } else {
+                console.log(false)
               }
               return null;
             })

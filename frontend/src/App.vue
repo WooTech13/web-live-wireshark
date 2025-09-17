@@ -2,7 +2,7 @@
   <div id="app">
     <!-- Header -->
     <header class="header">
-      <h1>🦈 Wireshark Web</h1>
+      <h1>🦈 Wireshark Web Live</h1>
       <div v-if="user" class="user-info">
         Welcome, {{ user.username }}
         <button @click="logout" class="btn-logout">Logout</button>
@@ -48,17 +48,21 @@
         </div>
       </div>
 
-      <!-- Packet List and Details -->
+      <!-- Content Section -->
       <div class="content-section">
         <div class="packet-list-container">
           <PacketList 
             :packets="packets"
             :selectedPacket="selectedPacket"
             @packet-selected="handlePacketSelection"
+            @clear-packets="clearPackets"
           />
         </div>
         <div class="packet-details-container" v-if="selectedPacket">
-          <PacketDetails :packet="selectedPacket" />
+          <PacketDetails 
+            :packet="selectedPacket" 
+            @close="selectedPacket = null"
+          />
         </div>
       </div>
     </div>
@@ -77,7 +81,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import Login from './components/Login.vue'
 import InterfaceSelector from './components/InterfaceSelector.vue'
 import FilterBar from './components/FilterBar.vue'
@@ -216,6 +220,11 @@ export default {
       selectedPacket.value = packet
     }
 
+    const clearPackets = () => {
+      packets.value = []
+      selectedPacket.value = null
+    }
+
     const formatDuration = (ms) => {
       const seconds = Math.floor(ms / 1000)
       const minutes = Math.floor(seconds / 60)
@@ -250,8 +259,11 @@ export default {
     onMounted(() => {
       const token = localStorage.getItem('token')
       if (token) {
-        // Verify token validity here if needed
-        const userData = { token, user: { username: 'User' } }
+        // Pour le test, on simule un utilisateur connecté
+        const userData = { 
+          token, 
+          user: { id: 1, username: 'TestUser', email: 'test@example.com' } 
+        }
         handleLogin(userData)
       }
     })
@@ -284,6 +296,7 @@ export default {
       resumeCapture,
       exportCapture,
       handlePacketSelection,
+      clearPackets,
       formatDuration
     }
   }

@@ -1,0 +1,7 @@
+backend/captures
+backend/node_modules
+backend/database.db
+backend/package-lock.json
+
+frontend/node_modules
+frontend/package-lock.json
