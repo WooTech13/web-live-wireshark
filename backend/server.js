@@ -8,7 +8,7 @@ const path = require('path');
 const Database = require('./models/database');
 const TsharkManager = require('./services/tsharkManager');
 const authRoutes = require('./routes/auth');
-const captureRoutes = require('./routes/capture');
+const captureRoutes = require('./routes/captures');
 
 const app = express();
 const server = http.createServer(app);
